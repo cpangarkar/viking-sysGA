@@ -1,4 +1,4 @@
-files = list.files("./results/explorer_plots/", pattern = "\\.html$", full.names = FALSE)
+files = list.files("./results/explorer_charts/", pattern = "\\.html$", full.names = FALSE)
 
 # extract unique assay names
 assays = files |>
@@ -32,7 +32,7 @@ html = paste0('
   </style>
 </head>
 <body>
-  <h2>Assay Plots</h2>
+  <h2>Viking SysGA Plots for Data Exploration</h2>
   <table>
     <tr>
       <th>Assay</th>
@@ -44,4 +44,4 @@ html = paste0('
 </body>
 </html>')
 
-writeLines(html, "./docs/index.html")
+writeLines(html, "./results/explorer_charts/index.html")

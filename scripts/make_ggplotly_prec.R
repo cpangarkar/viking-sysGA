@@ -43,7 +43,7 @@ source("./scripts/library.R")
 
 ## Read previously saved data
 assay_df =
-  "./data/assay_df.qs2" |> 
+  "./data/precision_assay_df.qs" |> 
   qs_read() |> 
   rename(run_name = disc)
 
@@ -74,7 +74,7 @@ make_ggplotly_method_comparison = function(.ddf, label_df, ylims, assayname) {
     theme_bw() +
     theme(panel.grid = element_blank()) +
     labs(
-      title = paste("OD-time traces for ", assayname)
+      title = paste("OD-time traces for Precision - ", assayname)
     )
   
   if (.ddf |> pull(read_path) |> unique() |> length() > 1) {
@@ -103,7 +103,7 @@ make_ggplotly_method_comparison = function(.ddf, label_df, ylims, assayname) {
         )
       )
     )
-  saveWidget(pl |> partial_bundle(), paste0("./results/explorer_charts/OD_traces_method_comp_", assayname, ".html"), selfcontained = TRUE)
+  saveWidget(pl |> partial_bundle(), paste0("./results/explorer_charts/OD_traces_precision_", assayname, ".html"), selfcontained = TRUE)
   return()
 }
 
@@ -123,8 +123,8 @@ assay_list |>
       df |> 
       filter(assay == assayname) |> 
       filter(read_path %in% lambdas) |> 
-      left_join(assay_df |> select(run_name, sample, assay, vital, vitalc, predicate, species), by=join_by("run_name", "assay")) |> 
-      mutate(recovery = round(vitalc/predicate,2))
+      left_join(assay_df |> select(run_name, sample, assay, vital, predicate), by=join_by("run_name", "assay")) |> 
+      mutate(recovery = round(vital/predicate,2))
 
     ylims = .ddf |> 
       filter(str_detect(read_id, "^[12]r-")) |> 
