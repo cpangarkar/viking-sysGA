@@ -45,7 +45,8 @@ source("./scripts/library.R")
 assay_df =
   "./data/precision_assay_df.qs" |> 
   qs_read() |> 
-  rename(run_name = disc)
+  rename(run_name = disc) |> 
+  filter(sample |> tolower()|> str_detect("control"))
 
 df = qs_read("./data/df_long.qs2")
 
