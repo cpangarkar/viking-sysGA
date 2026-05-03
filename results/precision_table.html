@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Precision Table</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 11pt; padding: 24px; background: white; }
+  h2 { font-size: 13pt; margin-bottom: 16px; color: #222; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #2c5f8a; color: white; padding: 6px 10px; text-align: center; font-size: 10pt; border: 1px solid #1a4060; }
+  th.group-header { background-color: #1a4060; }
+  td { padding: 5px 10px; text-align: center; border: 1px solid #ccc; font-size: 10pt; }
+  td.assay-cell { background-color: #dce8f3 !important; font-weight: bold; color: #1a3a55; vertical-align: middle; border-left: 3px solid #2c5f8a; }
+  td.sample-cell { text-align: left; color: #444; }
+  .cv-zero { color: #bbb; }
+  .cv-low  { color: #27ae60; }
+  .cv-mid  { color: #e67e22; }
+  .cv-high { color: #c0392b; font-weight: bold; }
+</style>
+</head>
+<body>
+<h2>Precision Summary Table</h2>
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Assay</th>
+      <th rowspan="2">Sample</th>
+      <th rowspan="2">Level</th>
+      <th colspan="2" class="group-header">Total</th>
+      <th colspan="2" class="group-header">Instrument</th>
+      <th colspan="2" class="group-header">Instr:Day</th>
+    </tr>
+    <tr>
+      <th>SD</th><th>CV%</th>
+      <th>SD</th><th>CV%</th>
+      <th>SD</th><th>CV%</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr style="background:#f7f9fc"><td class="assay-cell" rowspan="3" style="vertical-align:middle">ALB</td><td class="sample-cell">Control L</td><td>2.651</td><td>0.065</td><td><span class="cv-low">2.467</span></td><td>0.051</td><td><span class="cv-low">1.914</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control M</td><td>3.541</td><td>0.077</td><td><span class="cv-low">2.164</span></td><td>0.062</td><td><span class="cv-low">1.744</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control H</td><td>4.475</td><td>0.094</td><td><span class="cv-low">2.1</span></td><td>0.082</td><td><span class="cv-low">1.823</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="assay-cell" rowspan="3" style="vertical-align:middle">ALP</td><td class="sample-cell">Control L</td><td>26.097</td><td>1.276</td><td><span class="cv-low">4.891</span></td><td>0.841</td><td><span class="cv-low">3.222</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control M</td><td>145.868</td><td>2.146</td><td><span class="cv-low">1.471</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td>0.771</td><td><span class="cv-low">0.528</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control H</td><td>304.384</td><td>6.205</td><td><span class="cv-low">2.038</span></td><td>1.991</td><td><span class="cv-low">0.654</span></td><td>2.548</td><td><span class="cv-low">0.837</span></td></tr>
+<tr style="background:#f7f9fc"><td class="assay-cell" rowspan="3" style="vertical-align:middle">ALT</td><td class="sample-cell">Control L</td><td>66.865</td><td>3.05</td><td><span class="cv-low">4.562</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td>1.174</td><td><span class="cv-low">1.756</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control M</td><td>93.575</td><td>2.962</td><td><span class="cv-low">3.165</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td>1.953</td><td><span class="cv-low">2.087</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control H</td><td>167.63</td><td>5.847</td><td><span class="cv-low">3.488</span></td><td>2.06</td><td><span class="cv-low">1.229</span></td><td>0.775</td><td><span class="cv-low">0.462</span></td></tr>
+<tr style="background:#ffffff"><td class="assay-cell" rowspan="3" style="vertical-align:middle">AMY</td><td class="sample-cell">Control L</td><td>-201.96</td><td>31.6</td><td><span class="cv-high">-15.646</span></td><td>1.984</td><td><span class="cv-low">-0.982</span></td><td>3.248</td><td><span class="cv-low">-1.608</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control M</td><td>-92.326</td><td>18.219</td><td><span class="cv-high">-19.734</span></td><td>9.51</td><td><span class="cv-high">-10.301</span></td><td>4.863</td><td><span class="cv-mid">-5.267</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control H</td><td>87.8</td><td>18.627</td><td><span class="cv-high">21.215</span></td><td>16.89</td><td><span class="cv-high">19.236</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="assay-cell" rowspan="3" style="vertical-align:middle">AST</td><td class="sample-cell">Control L</td><td>25.425</td><td>6.335</td><td><span class="cv-high">24.918</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td>3.228</td><td><span class="cv-high">12.695</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control M</td><td>87.941</td><td>3.833</td><td><span class="cv-low">4.359</span></td><td>0.82</td><td><span class="cv-low">0.932</span></td><td>1.951</td><td><span class="cv-low">2.219</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control H</td><td>181.429</td><td>5.786</td><td><span class="cv-low">3.189</span></td><td>3.801</td><td><span class="cv-low">2.095</span></td><td>1.154</td><td><span class="cv-low">0.636</span></td></tr>
+<tr style="background:#ffffff"><td class="assay-cell" rowspan="3" style="vertical-align:middle">BUN</td><td class="sample-cell">Control L</td><td>15.073</td><td>1.047</td><td><span class="cv-mid">6.944</span></td><td>0.297</td><td><span class="cv-low">1.968</span></td><td>0.709</td><td><span class="cv-low">4.701</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control M</td><td>39.101</td><td>1.915</td><td><span class="cv-low">4.897</span></td><td>0.435</td><td><span class="cv-low">1.112</span></td><td>1.128</td><td><span class="cv-low">2.884</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control H</td><td>67.181</td><td>4.05</td><td><span class="cv-mid">6.028</span></td><td>2.373</td><td><span class="cv-low">3.532</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="assay-cell" rowspan="3" style="vertical-align:middle">CHOL</td><td class="sample-cell">Control L</td><td>96.916</td><td>1.293</td><td><span class="cv-low">1.334</span></td><td>0.44</td><td><span class="cv-low">0.454</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control M</td><td>169.009</td><td>2.276</td><td><span class="cv-low">1.347</span></td><td>0.918</td><td><span class="cv-low">0.543</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control H</td><td>241.251</td><td>5.131</td><td><span class="cv-low">2.127</span></td><td>4.438</td><td><span class="cv-low">1.84</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="assay-cell" rowspan="3" style="vertical-align:middle">CK</td><td class="sample-cell">Control L</td><td>72.529</td><td>6.037</td><td><span class="cv-mid">8.323</span></td><td>2.412</td><td><span class="cv-low">3.325</span></td><td>2.612</td><td><span class="cv-low">3.601</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control M</td><td>233.635</td><td>9.7</td><td><span class="cv-low">4.152</span></td><td>7.207</td><td><span class="cv-low">3.085</span></td><td>2.232</td><td><span class="cv-low">0.955</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control H</td><td>556.566</td><td>22.735</td><td><span class="cv-low">4.085</span></td><td>19.893</td><td><span class="cv-low">3.574</span></td><td>2.391</td><td><span class="cv-low">0.43</span></td></tr>
+<tr style="background:#f7f9fc"><td class="assay-cell" rowspan="3" style="vertical-align:middle">CREA</td><td class="sample-cell">Control L</td><td>0.738</td><td>0.064</td><td><span class="cv-mid">8.664</span></td><td>0.036</td><td><span class="cv-low">4.839</span></td><td>0.016</td><td><span class="cv-low">2.221</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control M</td><td>1.779</td><td>0.065</td><td><span class="cv-low">3.648</span></td><td>0.04</td><td><span class="cv-low">2.272</span></td><td>0.026</td><td><span class="cv-low">1.481</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control H</td><td>6.221</td><td>0.103</td><td><span class="cv-low">1.651</span></td><td>0.073</td><td><span class="cv-low">1.175</span></td><td>0.026</td><td><span class="cv-low">0.418</span></td></tr>
+<tr style="background:#ffffff"><td class="assay-cell" rowspan="3" style="vertical-align:middle">Ca</td><td class="sample-cell">Control L</td><td>6.201</td><td>0.363</td><td><span class="cv-mid">5.85</span></td><td>0.254</td><td><span class="cv-low">4.098</span></td><td>0.04</td><td><span class="cv-low">0.642</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control M</td><td>9.311</td><td>0.799</td><td><span class="cv-mid">8.576</span></td><td>0.26</td><td><span class="cv-low">2.791</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control H</td><td>11.569</td><td>0.612</td><td><span class="cv-mid">5.289</span></td><td>0.522</td><td><span class="cv-low">4.511</span></td><td>0.094</td><td><span class="cv-low">0.816</span></td></tr>
+<tr style="background:#f7f9fc"><td class="assay-cell" rowspan="3" style="vertical-align:middle">GLU</td><td class="sample-cell">Control L</td><td>53.939</td><td>1.016</td><td><span class="cv-low">1.883</span></td><td>0.541</td><td><span class="cv-low">1.002</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control M</td><td>96.618</td><td>1.475</td><td><span class="cv-low">1.527</span></td><td>0.915</td><td><span class="cv-low">0.947</span></td><td>0.361</td><td><span class="cv-low">0.374</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control H</td><td>312.897</td><td>5.911</td><td><span class="cv-low">1.889</span></td><td>4.774</td><td><span class="cv-low">1.526</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="assay-cell" rowspan="3" style="vertical-align:middle">LAC</td><td class="sample-cell">Control L</td><td>1.359</td><td>0.031</td><td><span class="cv-low">2.291</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control M</td><td>2.947</td><td>0.045</td><td><span class="cv-low">1.542</span></td><td>0.014</td><td><span class="cv-low">0.474</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control H</td><td>4.927</td><td>0.052</td><td><span class="cv-low">1.055</span></td><td>0.03</td><td><span class="cv-low">0.603</span></td><td>0.015</td><td><span class="cv-low">0.298</span></td></tr>
+<tr style="background:#f7f9fc"><td class="assay-cell" rowspan="3" style="vertical-align:middle">Mg</td><td class="sample-cell">Control L</td><td>1.061</td><td>0.087</td><td><span class="cv-mid">8.2</span></td><td>0.035</td><td><span class="cv-low">3.317</span></td><td>0.013</td><td><span class="cv-low">1.243</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control M</td><td>2.338</td><td>0.065</td><td><span class="cv-low">2.774</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td>0.029</td><td><span class="cv-low">1.243</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control H</td><td>3.866</td><td>0.092</td><td><span class="cv-low">2.372</span></td><td>0.037</td><td><span class="cv-low">0.969</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="assay-cell" rowspan="3" style="vertical-align:middle">PHOS</td><td class="sample-cell">Control L</td><td>1.867</td><td>0.056</td><td><span class="cv-low">3.023</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control M</td><td>3.926</td><td>0.066</td><td><span class="cv-low">1.68</span></td><td>0.005</td><td><span class="cv-low">0.133</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control H</td><td>6.754</td><td>0.176</td><td><span class="cv-low">2.611</span></td><td>0.105</td><td><span class="cv-low">1.548</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="assay-cell" rowspan="3" style="vertical-align:middle">TBIL</td><td class="sample-cell">Control L</td><td>0.662</td><td>0.043</td><td><span class="cv-mid">6.511</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td>0.006</td><td><span class="cv-low">0.906</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control M</td><td>2.93</td><td>0.048</td><td><span class="cv-low">1.637</span></td><td>0.013</td><td><span class="cv-low">0.448</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control H</td><td>6.796</td><td>0.12</td><td><span class="cv-low">1.758</span></td><td>0.095</td><td><span class="cv-low">1.402</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="assay-cell" rowspan="3" style="vertical-align:middle">TP</td><td class="sample-cell">Control L</td><td>3.883</td><td>0.127</td><td><span class="cv-low">3.279</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control M</td><td>5.214</td><td>0.088</td><td><span class="cv-low">1.681</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td>0.044</td><td><span class="cv-low">0.853</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control H</td><td>6.66</td><td>0.14</td><td><span class="cv-low">2.106</span></td><td>0.095</td><td><span class="cv-low">1.427</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="assay-cell" rowspan="3" style="vertical-align:middle">TRIG</td><td class="sample-cell">Control L</td><td>95.785</td><td>3.274</td><td><span class="cv-low">3.418</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#ffffff"><td class="sample-cell">Control M</td><td>143.92</td><td>3.268</td><td><span class="cv-low">2.271</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+<tr style="background:#f7f9fc"><td class="sample-cell">Control H</td><td>210.11</td><td>6.852</td><td><span class="cv-low">3.261</span></td><td>3.558</td><td><span class="cv-low">1.693</span></td><td><span class="cv-zero">0</span></td><td><span class="cv-zero">0.0</span></td></tr>
+  </tbody>
+</table>
+</body>
+</html>

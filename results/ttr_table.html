@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TTR Duration Table</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 11pt; padding: 24px; background: white; }
+  h2 { font-size: 13pt; margin-bottom: 16px; color: #222; }
+  table { border-collapse: collapse; width: auto; min-width: 420px; }
+  th { background-color: #2c5f8a; color: white; padding: 6px 16px; text-align: center; font-size: 10pt; border: 1px solid #1a4060; }
+  td { padding: 5px 16px; text-align: center; border: 1px solid #ccc; font-size: 10pt; }
+  td.label { text-align: left; }
+  tr:nth-child(odd) td { background-color: #f7f9fc; }
+  tr:nth-child(even) td { background-color: #ffffff; }
+  tr.total-row td { background-color: #dce8f3 !important; font-weight: bold; color: #1a3a55; border-top: 2px solid #2c5f8a; }
+  tr.spacer td { border: none; background: white !important; padding: 4px; }
+</style>
+</head>
+<body>
+<h2>Time-to-Result (TTR) Summary</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Duration (sec)</th>
+      <th>Duration (min)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="label">Disc delivery</td><td>10.3</td><td></td></tr>
+    <tr><td class="label">Load buffer</td><td>54.5</td><td></td></tr>
+    <tr><td class="label">Load sample</td><td>78.5</td><td></td></tr>
+    <tr><td class="label">On-disc processing</td><td>937.7</td><td>15min 37sec</td></tr>
+    <tr><td class="label">Disc retrieval</td><td>24.2</td><td></td></tr>
+    <tr class="spacer"><td colspan="3"></td></tr>
+    <tr class="total-row"><td class="label">Total TTR</td><td>1105.2</td><td>18min 25sec</td></tr>
+  </tbody>
+</table>
+</body>
+</html>

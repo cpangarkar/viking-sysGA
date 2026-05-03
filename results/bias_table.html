@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bias Table</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 11pt; padding: 24px; background: white; }
+  h2 { font-size: 13pt; margin-bottom: 16px; color: #222; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #2c5f8a; color: white; padding: 6px 10px; text-align: center; font-size: 10pt; border: 1px solid #1a4060; }
+  td { padding: 5px 10px; text-align: center; border: 1px solid #ccc; font-size: 10pt; }
+  td.assay-cell { background-color: #dce8f3; font-weight: bold; color: #1a3a55; vertical-align: middle; border-left: 3px solid #2c5f8a; }
+  tr.species-canine td { background-color: #f0f6fb; }
+  tr.species-feline td { background-color: #fdf6ee; }
+  td.species-label { font-weight: bold; font-size: 9pt; text-transform: uppercase; letter-spacing: 0.03em; }
+  td.canine { color: #1a5c8a; }
+  td.feline { color: #a05c00; }
+  td.bias-pos { color: #c0392b; }
+  td.bias-neg { color: #2471a3; }
+  td.bias-zero { color: #555; }
+  td.unit { color: #666; font-style: italic; font-size: 9pt; }
+  td.merged { vertical-align: middle; font-weight: bold; }
+</style>
+</head>
+<body>
+<h2>Bias Summary Table</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Assay</th><th>Species</th><th>Level</th><th>Unit</th>
+      <th>Bias (%)</th><th>LCI (%)</th><th>UCI (%)</th>
+      <th>N within</th><th>% within</th><th>Total N</th>
+    </tr>
+  </thead>
+  <tbody id="table-body"></tbody>
+</table>
+<script>
+const raw = `ALT,115,-1.4,-10.2,4.4,canine,U/L,18,85.7,21
+ALT,66.9,0,-6.7,5.7,canine,U/L,18,85.7,21
+ALT,93.6,-1,-8.8,4.7,canine,U/L,18,85.7,21
+ALT,167.6,-2.1,-12.8,4.3,canine,U/L,18,85.7,21
+ALT,115,-1.2,-9.4,3.1,feline,U/L,15,88.2,17
+ALT,66.9,-0.1,-6.5,5.4,feline,U/L,15,88.2,17
+ALT,93.6,-0.9,-7.7,3.6,feline,U/L,15,88.2,17
+ALT,167.6,-1.6,-11.8,2.8,feline,U/L,15,88.2,17
+ALB,2.5,-0,-2.1,1.8,canine,g/dL,33,97.1,34
+ALB,4.4,0.1,-1.6,2.4,canine,g/dL,33,97.1,34
+ALB,2.13,-0.1,-3.5,2.8,canine,g/dL,33,97.1,34
+ALB,2.96,-0,-1.1,1.1,canine,g/dL,33,97.1,34
+ALB,3.77,0,-1.2,1.7,canine,g/dL,33,97.1,34
+ALB,2.5,-0,-2.1,3.3,feline,g/dL,28,87.5,32
+ALB,4.4,-0.1,-6.3,2.1,feline,g/dL,28,87.5,32
+ALB,2.13,0,-2.3,6.4,feline,g/dL,28,87.5,32
+ALB,2.96,-0.1,-2.2,1.9,feline,g/dL,28,87.5,32
+ALB,3.77,-0.1,-4.5,2,feline,g/dL,28,87.5,32
+ALP,20,0.2,-8.1,5,canine,U/L,25,96.2,26
+ALP,150,-0,-2.6,2.7,canine,U/L,25,96.2,26
+ALP,45.5,0.1,-3.3,2.4,canine,U/L,25,96.2,26
+ALP,172.3,-0,-2.6,2.8,canine,U/L,25,96.2,26
+ALP,338.2,-0.1,-2.9,3.1,canine,U/L,25,96.2,26
+ALP,20,-0.1,-17.4,10.8,feline,U/L,23,95.8,24
+ALP,150,1,-10.5,23.7,feline,U/L,23,95.8,24
+ALP,45.5,0.6,-5.5,12.4,feline,U/L,23,95.8,24
+ALP,172.3,1,-10.9,24.2,feline,U/L,23,95.8,24
+ALP,338.2,1.1,-12.1,26,feline,U/L,23,95.8,24
+AST,45,0,-3.6,4.1,canine,U/L,13,100,13
+AST,92.4,-0.1,-6.2,7.3,canine,U/L,13,100,13
+AST,190.8,-0.1,-8.5,9.8,canine,U/L,13,100,13
+AST,45,0,-5.3,5.5,feline,U/L,16,100,16
+AST,92.4,-0,-3.6,4.7,feline,U/L,16,100,16
+AST,190.8,-0.1,-3.8,6.2,feline,U/L,16,100,16
+TBIL,0.4,-1.9,-206.7,276.8,canine,mg/dL,4,100,4
+TBIL,0.6,-0.8,-62.4,67.8,canine,mg/dL,4,100,4
+TBIL,0.66,-0.6,-36.2,29.9,canine,mg/dL,4,100,4
+TBIL,2.93,1,-264.5,167,canine,mg/dL,4,100,4
+TBIL,6.8,1.3,-313.2,200.7,canine,mg/dL,4,100,4
+TBIL,0.4,13.9,-480,1484.2,feline,mg/dL,3,75,4
+TBIL,0.6,3.3,-198.9,34.3,feline,mg/dL,3,75,4
+TBIL,0.66,1.3,-504.9,127.8,feline,mg/dL,3,75,4
+TBIL,2.93,-13.6,-2875.7,852.2,feline,mg/dL,3,75,4
+TBIL,6.8,-16.1,-3268,972.1,feline,mg/dL,3,75,4
+BUN,7,0.6,-6.5,11.1,canine,mg/dL,26,86.7,30
+BUN,25,-0.1,-2.9,2.4,canine,mg/dL,26,86.7,30
+BUN,21.87,-0,-2.7,2.4,canine,mg/dL,26,86.7,30
+BUN,57.54,-0.2,-4.4,2.9,canine,mg/dL,26,86.7,30
+BUN,98.41,-0.3,-5.1,3.4,canine,mg/dL,26,86.7,30
+BUN,7,0.1,-16.7,14.4,feline,mg/dL,24,96,25
+BUN,25,0,-1.9,1.9,feline,mg/dL,24,96,25
+BUN,21.87,0,-1.7,1.7,feline,mg/dL,24,96,25
+BUN,57.54,0,-4.2,4.8,feline,mg/dL,24,96,25
+BUN,98.41,0,-5.1,5.9,feline,mg/dL,24,96,25
+Ca,8.6,0.4,-3.1,3.1,canine,mg/dL,22,84.6,26
+Ca,11.8,-1.3,-7.1,4.6,canine,mg/dL,22,84.6,26
+Ca,8.17,0.7,-3.9,4.3,canine,mg/dL,22,84.6,26
+Ca,13.19,-1.8,-9.4,6,canine,mg/dL,22,84.6,26
+Ca,16.83,-2.7,-13.9,9.4,canine,mg/dL,22,84.6,26
+Ca,8.6,0,-1.4,1.7,feline,mg/dL,24,100,24
+Ca,11.8,-0.3,-3.5,4.4,feline,mg/dL,24,100,24
+Ca,8.17,0.1,-1.4,1.7,feline,mg/dL,24,100,24
+Ca,13.19,-0.4,-4.3,5.5,feline,mg/dL,24,100,24
+Ca,16.83,-0.5,-5.7,7.4,feline,mg/dL,24,100,24
+CREA,0.3,0.1,-17.9,21,canine,mg/dL,28,93.3,30
+CREA,1.4,-0,-6.3,6.8,canine,mg/dL,28,93.3,30
+CREA,0.7,0,-3.5,4.1,canine,mg/dL,28,93.3,30
+CREA,1.8,-0,-7.9,7.9,canine,mg/dL,28,93.3,30
+CREA,6.29,-0,-11.5,10.8,canine,mg/dL,28,93.3,30
+CREA,0.3,0.2,-37.9,19.5,feline,mg/dL,23,88.5,26
+CREA,1.4,0,-3.3,3,feline,mg/dL,23,88.5,26
+CREA,0.7,0.1,-11.1,6.2,feline,mg/dL,23,88.5,26
+CREA,1.8,-0,-3.4,3.3,feline,mg/dL,23,88.5,26
+CREA,6.29,-0,-5.4,7.3,feline,mg/dL,23,88.5,26
+GLU,60,0.1,-10.8,6.4,canine,mg/dL,32,100,32
+GLU,110,-0,-2.4,4.7,canine,mg/dL,32,100,32
+GLU,51.2,0.2,-16,9.4,canine,mg/dL,32,100,32
+GLU,96.6,-0,-1.7,2.5,canine,mg/dL,32,100,32
+GLU,319.7,-0.2,-8,15.8,canine,mg/dL,32,100,32
+GLU,60,-0,-1.7,2.3,feline,mg/dL,27,100,27
+GLU,110,-0,-0.7,0.8,feline,mg/dL,27,100,27
+GLU,51.2,-0,-2.2,3.1,feline,mg/dL,27,100,27
+GLU,96.6,-0,-0.8,0.9,feline,mg/dL,27,100,27
+GLU,319.7,0,-1.8,1.6,feline,mg/dL,27,100,27
+CHOL,125,0,-3.4,1.6,canine,mg/dL,32,97,33
+CHOL,270,0,-1.4,1.8,canine,mg/dL,32,97,33
+CHOL,103.9,0,-4.6,2,canine,mg/dL,32,97,33
+CHOL,189.9,0,-1.5,1.4,canine,mg/dL,32,97,33
+CHOL,273.2,0,-1.4,1.8,canine,mg/dL,32,97,33
+CHOL,125,0,-1.5,1.3,feline,mg/dL,28,100,28
+CHOL,270,0,-2.1,2.1,feline,mg/dL,28,100,28
+CHOL,103.9,-0,-1.8,1.3,feline,mg/dL,28,100,28
+CHOL,189.9,0,-1.7,1.7,feline,mg/dL,28,100,28
+CHOL,273.2,0,-2.1,2.1,feline,mg/dL,28,100,28
+TP,5.4,0,-1.2,1.3,canine,g/dL,31,100,31
+TP,8.2,-0,-3.1,2.7,canine,g/dL,31,100,31
+TP,4,0,-2.9,4.2,canine,g/dL,31,100,31
+TP,5.5,0,-1.2,1.3,canine,g/dL,31,100,31
+TP,7,-0,-2.1,2,canine,g/dL,31,100,31
+TP,5.4,0,-2,1.5,feline,g/dL,24,96,25
+TP,8.2,-0,-1.2,1.3,feline,g/dL,24,96,25
+TP,4,0,-4.3,3.4,feline,g/dL,24,96,25
+TP,5.5,0,-1.8,1.4,feline,g/dL,24,96,25
+TP,7,-0,-0.9,0.9,feline,g/dL,24,96,25
+TRIG,133,-0.3,-7.7,7.7,canine,mg/dL,24,96,25
+TRIG,115,-0.2,-7,7,canine,mg/dL,24,96,25
+TRIG,200,-0.4,-9.4,9,canine,mg/dL,24,96,25
+TRIG,309,-0.5,-10.4,10.1,canine,mg/dL,24,96,25
+TRIG,133,0.9,-7.4,7.4,feline,mg/dL,21,100,21
+TRIG,115,0.8,-7,6.9,feline,mg/dL,21,100,21
+TRIG,200,1,-8.2,8.2,feline,mg/dL,21,100,21
+TRIG,309,1.1,-8.8,8.9,feline,mg/dL,21,100,21
+AMY,200,-1.1,-20,14.9,canine,U/L,27,93.1,29
+AMY,1200,0.2,-8.2,11.2,canine,U/L,27,93.1,29
+AMY,200,-1.8,-68.6,28,feline,U/L,24,92.3,26
+AMY,1200,0.1,-4.1,5.4,feline,U/L,24,92.3,26
+CK,10,6.4,-27,38.7,canine,U/L,20,100,20
+CK,200,-2.2,-27,29.9,canine,U/L,20,100,20
+CK,72.6,-1.4,-21.6,25.7,canine,U/L,20,100,20
+CK,233.6,-2.2,-27.4,30.3,canine,U/L,20,100,20
+CK,540.4,-2.5,-29.2,31.7,canine,U/L,20,100,20
+CK,10,1.6,-5.5,9.2,feline,U/L,23,100,23
+CK,200,-0.9,-5,2.4,feline,U/L,23,100,23
+CK,72.6,-0.7,-4,2.1,feline,U/L,23,100,23
+CK,233.6,-0.9,-5,2.4,feline,U/L,23,100,23
+CK,540.4,-1,-5.3,2.6,feline,U/L,23,100,23
+LAC,0.5,0.1,-9.8,7.9,canine,mM,28,100,28
+LAC,2.5,-0,-1.3,1.6,canine,mM,28,100,28
+LAC,1.5,0,-1.1,1.4,canine,mM,28,100,28
+LAC,3.2,-0,-1.6,2.2,canine,mM,28,100,28
+LAC,5.4,-0,-2,2.9,canine,mM,28,100,28
+LAC,0.5,0.1,-6.1,6.6,feline,mM,27,100,27
+LAC,2.5,-0,-0.8,0.9,feline,mM,27,100,27
+LAC,1.5,0,-1,1.1,feline,mM,27,100,27
+LAC,3.2,-0,-1,1,feline,mM,27,100,27
+LAC,5.4,-0,-1.4,1.4,feline,mM,27,100,27
+PHOS,2.9,0.3,-1.6,3.9,canine,mg/dL,33,97.1,34
+PHOS,6.6,-0.2,-2,1.7,canine,mg/dL,33,97.1,34
+PHOS,1.2,1.6,-6.5,16.4,canine,mg/dL,33,97.1,34
+PHOS,3.9,0.1,-1.1,1.6,canine,mg/dL,33,97.1,34
+PHOS,7.4,-0.3,-2.4,1.9,canine,mg/dL,33,97.1,34
+PHOS,2.9,0.2,-5.5,4.2,feline,mg/dL,29,100,29
+PHOS,6.6,-0.1,-1.7,2.2,feline,mg/dL,29,100,29
+PHOS,1.2,0.9,-23.3,16.9,feline,mg/dL,29,100,29
+PHOS,3.9,0.1,-2.2,2,feline,mg/dL,29,100,29
+PHOS,7.4,-0.1,-2,2.8,feline,mg/dL,29,100,29
+Mg,1.4,0.3,-6.8,5.4,canine,mg/dL,24,85.7,28
+Mg,2.38,-0.1,-2.3,3.4,canine,mg/dL,24,85.7,28
+Mg,1.15,0.5,-11.3,8.6,canine,mg/dL,24,85.7,28
+Mg,2.57,-0.1,-2.8,4.2,canine,mg/dL,24,85.7,28
+Mg,4.26,-0.3,-5.4,9.2,canine,mg/dL,24,85.7,28
+Mg,1.4,-0,-4.5,8.3,feline,mg/dL,26,96.3,27
+Mg,2.38,0,-1.5,2,feline,mg/dL,26,96.3,27
+Mg,1.15,-0,-7.6,12.7,feline,mg/dL,26,96.3,27
+Mg,2.57,0,-1.8,2.5,feline,mg/dL,26,96.3,27
+Mg,4.26,0,-5.6,5.5,feline,mg/dL,26,96.3,27`;
+
+const data = raw.trim().split('\n').map(line => {
+  const [assay, level, bias, lci, uci, species, unit, nWithin, perWithin, totPoints] = line.split(',');
+  return [assay, parseFloat(level), parseFloat(bias), parseFloat(lci), parseFloat(uci), species, unit, parseInt(nWithin), parseFloat(perWithin), parseInt(totPoints)];
+});
+
+const tbody = document.getElementById('table-body');
+
+// Group by assay, then by species within assay
+const assayGroups = [];
+let curAssay = null;
+data.forEach(row => {
+  if (!curAssay || curAssay.assay !== row[0]) {
+    curAssay = { assay: row[0], speciesGroups: [] };
+    assayGroups.push(curAssay);
+  }
+  const species = row[5];
+  let curSpecies = curAssay.speciesGroups[curAssay.speciesGroups.length - 1];
+  if (!curSpecies || curSpecies.species !== species) {
+    curSpecies = { species, rows: [] };
+    curAssay.speciesGroups.push(curSpecies);
+  }
+  curSpecies.rows.push(row);
+});
+
+assayGroups.forEach(ag => {
+  const totalAssayRows = ag.speciesGroups.reduce((s, sg) => s + sg.rows.length, 0);
+  let assayCellEmitted = false;
+
+  ag.speciesGroups.forEach(sg => {
+    const count = sg.rows.length;
+    sg.rows.forEach((row, i) => {
+      const [assay, level, bias, lci, uci, species, unit, nWithin, perWithin, totPoints] = row;
+      const tr = document.createElement('tr');
+      tr.className = `species-${species}`;
+      const biasClass = bias > 0 ? 'bias-pos' : bias < 0 ? 'bias-neg' : 'bias-zero';
+
+      const assayCell = !assayCellEmitted
+        ? `<td class="assay-cell merged" rowspan="${totalAssayRows}">${assay}</td>`
+        : '';
+      if (!assayCellEmitted) assayCellEmitted = true;
+
+      const speciesCell = i === 0
+        ? `<td class="species-label ${species} merged" rowspan="${count}">${species}</td>`
+        : '';
+
+      const mergedCells = i === 0
+        ? `<td class="merged" rowspan="${count}">${nWithin}</td>
+           <td class="merged" rowspan="${count}">${perWithin}%</td>
+           <td class="merged" rowspan="${count}">${totPoints}</td>`
+        : '';
+
+      tr.innerHTML = `
+        ${assayCell}
+        ${speciesCell}
+        <td>${level}</td>
+        <td class="unit">${unit}</td>
+        <td class="${biasClass}">${bias}</td>
+        <td>${lci}</td>
+        <td>${uci}</td>
+        ${mergedCells}
+      `;
+      tbody.appendChild(tr);
+    });
+  });
+});
+</script>
+</body>
+</html>
