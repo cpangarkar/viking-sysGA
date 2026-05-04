@@ -144,7 +144,12 @@ pdf("./results/precision_charts_ggplot.pdf", width=11, height=5)
             .m + 1*.s, .m - 1*.s,
             .m + 2*.s, .m - 2*.s
             ), 
-          col=vpal["vslate"], linewidth=0.5, linetype="dashed") + 
+          col=vpal["vslate"], linewidth=0.5, linetype="dashed") +
+        geom_jitter(col = vpal["vgreen"], size=1.4, shape = 21, width = 0.02, height = 0, fill = vpal["vleaf"]) + 
+        stat_summary(fun = mean, geom = "point", shape=24, size = 1.5, col = vpal["vpoppy"], fill = vpal["vpoppy"]) + 
+        scale_y_continuous(limits = ylims) + 
+        scale_x_continuous(limits = c(0.5, 1.5)) +
+        coord_cartesian(clip = "off") +
         geom_text(
             data  = .out,
             aes(label = disc),
@@ -152,10 +157,16 @@ pdf("./results/precision_charts_ggplot.pdf", width=11, height=5)
             size  = 3,
             col   = vpal["vpoppy"]
           ) + 
-        geom_jitter(col = vpal["vgreen"], size=1.4, shape = 21, width = 0.02, height = 0, fill = vpal["vleaf"]) + 
-        stat_summary(fun = mean, geom = "point", shape=24, size = 1.5, col = vpal["vpoppy"], fill = vpal["vpoppy"]) + 
-        scale_y_continuous(limits = ylims) + 
-        scale_x_continuous(limits = c(0.5, 1.5)) +
+        # geom_label(
+        #   data       = .out,
+        #   aes(label  = disc),
+        #   hjust      = -0.2,
+        #   size       = 3,
+        #   col        = vpal["vpoppy"],
+        #   fill       = "white",
+        #   label.size = 0.2,        # border thickness
+        #   alpha      = 0.8         # slight transparency
+        # ) + 
         facet_nested(
           . ~ instr + day,  
           labeller = labeller(
@@ -179,7 +190,8 @@ pdf("./results/precision_charts_ggplot.pdf", width=11, height=5)
         plot.subtitle = element_text(size = 8),
         strip.background = element_rect(fill = "grey80", color = "grey70"),
         panel.background = element_rect(fill = "white"),
-        panel.border     = element_rect(color = "grey80")
+        panel.border     = element_rect(color = "grey80"),
+        plot.margin = margin(5, 20, 5, 5)
         )
       return(p)
     },.keep=T)

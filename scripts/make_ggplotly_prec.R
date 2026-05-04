@@ -50,8 +50,11 @@ assay_df =
 
 df = qs_read("./data/df_long.qs2")
 
+df = 
+  df |> 
+  left_join(assay_df |> select(run_name, sample), by="run_name")
 
-make_ggplotly_method_comparison = function(.ddf, label_df, ylims, assayname) {
+make_ggplotly_method_comparison = function(.ddf, label_df, ylims, assayname, sampless) {
   p = 
     .ddf |>
     arrange(run_name, tassay) |>
@@ -82,7 +85,7 @@ make_ggplotly_method_comparison = function(.ddf, label_df, ylims, assayname) {
     p = p + facet_grid(row = vars(read_path))
   }
 
-
+  
   pl = ggplotly(p, tooltip = "text") |>
     highlight(
       on        = "plotly_click",
@@ -104,7 +107,7 @@ make_ggplotly_method_comparison = function(.ddf, label_df, ylims, assayname) {
         )
       )
     )
-  saveWidget(pl |> partial_bundle(), paste0("./results/explorer_charts/OD_traces_precision_", assayname, ".html"), selfcontained = TRUE)
+  saveWidget(pl |> partial_bundle(), paste0("./results/explorer_charts/OD_traces_precision_", sampless, "_", assayname, ".html"), selfcontained = TRUE)
   return()
 }
 
@@ -113,18 +116,22 @@ make_ggplotly_method_comparison = function(.ddf, label_df, ylims, assayname) {
 # plot method comparison runs
 assay_list = c("ALT","ALB","ALP","AST","TBIL","BUN","Ca","CREA","GLU","CHOL","TP","TRIG","AMY","CK","LAC","PHOS","Mg")
 
-assay_list |> 
+cross2(assay_df |> pull(sample) |> unique(), assay_list) |> 
   map(~{
     ## Analysis
-    assayname = .x
+    sampless = .x[[1]]
+    assayname = .x[[2]]
     print(assayname)
+    print(sampless)
     lambdas = assay_lambdas |> filter(assay == assayname) |> select(-assay) |> as.character() |> na.omit() |> as.character()
 
     .ddf = 
       df |> 
+      filter(sample==sampless) |> 
       filter(assay == assayname) |> 
       filter(read_path %in% lambdas) |> 
-      left_join(assay_df |> select(run_name, sample, assay, vital, predicate), by=join_by("run_name", "assay")) |> 
+      filter(read_id |> str_detect("^[12]r-")) |> 
+      left_join(assay_df |> select(run_name, assay, vital, predicate), by=join_by("run_name", "assay")) |> 
       mutate(recovery = round(vital/predicate,2))
 
     ylims = .ddf |> 
@@ -132,13 +139,13 @@ assay_list |>
       filter(is.finite(relOD)) |> 
       pull(relOD) |> 
       range(na.rm = TRUE) * c(0.95, 1.05)
-        
+    print(ylims)
     # create labels
     label_df = .ddf |> 
       group_by(run_name) |> 
       slice_max(tassay, n = 1) |> 
       ungroup()
 
-    make_ggplotly_method_comparison(.ddf, label_df, ylims, assayname)
-    
+    make_ggplotly_method_comparison(.ddf, label_df, ylims, assayname, sampless)
+    return(NULL)
 })
